@@ -1,0 +1,9 @@
+# React Router (legacy)
+**/react-router*
+**/react-router-dom*
+
+# Next.js
+.next/
+out/
+build/
+next-env.d.ts 
