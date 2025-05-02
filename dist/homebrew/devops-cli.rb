@@ -1,8 +1,8 @@
 class DevopsCli < Formula
   desc "A tool between developers and complex backend infrastructure"
   homepage "https://github.com/sysintelligent/devops-bridge"
-  url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.4.tar.gz"
-  sha256 "34984464a7b55856a2a4c2a60e5ab711cf475caebbc742746b68a5bc35951241"
+  url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.2.tar.gz"
+  sha256 "39627dc97d7f65c390c57e0b557dbb3b916b9161086e1e0c36775802989872fc"
 
   depends_on "go" => :build
   depends_on "node" => :build
