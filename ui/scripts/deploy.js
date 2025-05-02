@@ -1,5 +1,5 @@
 /**
- * Deployment script for BDC Bridge UI
+ * Deployment script for DevOps Bridge UI
  * 
  * This script copies the built UI files to the server's static directory
  */

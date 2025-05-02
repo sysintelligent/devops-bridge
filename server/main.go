@@ -11,9 +11,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/sysintelligent/bdc-bridge/server/api"
-	"github.com/sysintelligent/bdc-bridge/server/auth"
-	"github.com/sysintelligent/bdc-bridge/server/kubernetes"
+	"github.com/sysintelligent/devops-bridge/server/api"
+	"github.com/sysintelligent/devops-bridge/server/auth"
+	"github.com/sysintelligent/devops-bridge/server/kubernetes"
 	"google.golang.org/grpc"
 )
 
@@ -24,8 +24,8 @@ const (
 
 func main() {
 	// Set up logger
-	logger := log.New(os.Stdout, "BDC-SERVER: ", log.LstdFlags|log.Lshortfile)
-	logger.Println("Starting BDC Bridge server...")
+	logger := log.New(os.Stdout, "DEVOPS-SERVER: ", log.LstdFlags|log.Lshortfile)
+	logger.Println("Starting DevOps Bridge server...")
 
 	// Initialize Kubernetes client
 	k8sClient, err := kubernetes.NewClient()

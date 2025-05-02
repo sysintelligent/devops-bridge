@@ -6,8 +6,8 @@ import { Providers } from '@/components/providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'BDC Bridge',
-  description: 'BDC Bridge Application',
+  title: 'DevOps Bridge',
+  description: 'DevOps Bridge Application',
 }
 
 export default function RootLayout({

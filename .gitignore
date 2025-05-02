@@ -39,7 +39,7 @@ Thumbs.db
 /bin/
 ui/build/
 server/static/
-cmd/bdc-cli/bdc-cli
+cmd/devops-cli/devops-cli
 
 # Environment variables
 .env

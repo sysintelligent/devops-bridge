@@ -1,10 +1,11 @@
-module github.com/sysintelligent/bdc-bridge
+module github.com/sysintelligent/devops-bridge
 
 go 1.24.0
 
 require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.19.0
+	github.com/sysintelligent/bdc-bridge v1.0.4
 	google.golang.org/grpc v1.71.0
 	google.golang.org/protobuf v1.36.5
 	k8s.io/client-go v0.32.3

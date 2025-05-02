@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/sysintelligent/bdc-bridge/server/auth"
-	"github.com/sysintelligent/bdc-bridge/server/kubernetes"
+	"github.com/sysintelligent/devops-bridge/server/auth"
+	"github.com/sysintelligent/devops-bridge/server/kubernetes"
 )
 
 // RESTHandler handles REST API requests

@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	"github.com/sysintelligent/bdc-bridge/server/kubernetes"
+	"github.com/sysintelligent/devops-bridge/server/kubernetes"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
