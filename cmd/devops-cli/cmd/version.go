@@ -15,7 +15,7 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of devops-cli",
 	Long:  `All software has versions. This is devops-cli's`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("devops-cli version dev")
+		fmt.Printf("devops-cli version %s\n", Version)
 	},
 }
 
