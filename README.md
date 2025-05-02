@@ -1,6 +1,6 @@
-# BDC Bridge
+# DevOps Bridge
 
-A tool between developers and complex backend infrastructure., inspired by Argo CD. It gives developers the edge they need to succeed while simplifying the platform complexities.
+A tool between developers and complex backend infrastructure, inspired by Argo CD. It gives developers the edge they need to succeed while simplifying platform complexities.
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ A tool between developers and complex backend infrastructure., inspired by Argo 
 The project is organized into three main components:
 
 ```
-bdc-bridge/
+devops-bridge/
 ├── ui/                   # Next.js TypeScript frontend
 │   ├── src/              # Source code directory
 │   │   ├── app/          # Next.js App Router pages and layouts
@@ -36,10 +36,10 @@ bdc-bridge/
 │   ├── auth/             # Authentication and RBAC
 │   └── kubernetes/       # Kubernetes client integration
 └── cmd/                  # CLI implementation using Cobra
-    └── bdc-cli/          # CLI source code
+    └── devops-cli/       # CLI source code
 └── dist/                 # Package distribution files
     └── homebrew/         # Homebrew formula for CLI installation
-        └── bdc-cli.rb    # Homebrew formula definition
+        └── devops-cli.rb # Homebrew formula definition
 ```
 
 The UI structure follows modern Next.js best practices with a dedicated `src` directory that provides:
@@ -61,7 +61,7 @@ The UI structure follows modern Next.js best practices with a dedicated `src` di
 
 ## Architecture
 
-BDC Bridge uses a modern, microservices-based architecture:
+DevOps Bridge uses a modern, microservices-based architecture:
 
 1. **Backend Server (Go)**
    - REST API on port 8080
@@ -78,7 +78,7 @@ BDC Bridge uses a modern, microservices-based architecture:
    - Styled with Tailwind CSS
 
 3. **CLI (Go)**
-   - Command-line interface for BDC Bridge
+   - Command-line interface for DevOps Bridge
    - Integrates with both backend and frontend
    - Provides dashboard access via browser
 
@@ -147,20 +147,20 @@ After importing, you can use the component in your pages or components. You may 
 
 1. Build the CLI:
 ```bash
-cd cmd/bdc-cli
-go build -o bdc-cli
+cd cmd/devops-cli
+go build -o devops-cli
 ```
 
 2. Open the dashboard:
 ```bash
-./bdc-cli admin dashboard
+./devops-cli admin dashboard
 ```
 
 This will start the Next.js server if not running and open the dashboard in your browser.
 
 #### Installing via Homebrew
 
-You can install the BDC CLI using Homebrew:
+You can install the DevOps CLI using Homebrew:
 
 1. Add the Sysintelligent tap:
 ```bash
@@ -169,17 +169,17 @@ brew tap sysintelligent/sysintelligent
 
 2. Install the CLI:
 ```bash
-brew install sysintelligent/sysintelligent/bdc-cli
+brew install sysintelligent/sysintelligent/devops-cli
 ```
 
 3. Verify the installation:
 ```bash
-bdc-cli version
+devops-cli version
 ```
 
 To uninstall the CLI:
 ```bash
-brew uninstall sysintelligent/sysintelligent/bdc-cli
+brew uninstall sysintelligent/sysintelligent/devops-cli
 ```
 
 ## API Documentation
