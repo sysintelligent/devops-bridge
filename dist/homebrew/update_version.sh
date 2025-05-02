@@ -11,9 +11,9 @@ if [ -z "$1" ]; then
 fi
 
 NEW_VERSION=$1
-LOCAL_FORMULA_PATH="bdc-cli.rb"  # Formula in the current directory
-TAP_FORMULA_PATH="Formula/bdc-cli.rb"  # Formula in the tap repository
-REPO="sysintelligent/bdc-bridge"
+LOCAL_FORMULA_PATH="devops-cli.rb"  # Formula in the current directory
+TAP_FORMULA_PATH="Formula/devops-cli.rb"  # Formula in the tap repository
+REPO="sysintelligent/devops-bridge"
 TAP_REPO="sysintelligent/homebrew-sysintelligent"
 TAP_DIR="${HOME}/homebrew-sysintelligent"
 
@@ -44,8 +44,8 @@ cd "$TEMP_DIR"
 MAX_RETRIES=5
 RETRY_COUNT=0
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-    if curl -L "https://github.com/${REPO}/archive/v${NEW_VERSION}.tar.gz" -o "bdc-bridge-${NEW_VERSION}.tar.gz"; then
-        NEW_SHA256=$(shasum -a 256 "bdc-bridge-${NEW_VERSION}.tar.gz" | cut -d' ' -f1)
+    if curl -L "https://github.com/${REPO}/archive/v${NEW_VERSION}.tar.gz" -o "devops-bridge-${NEW_VERSION}.tar.gz"; then
+        NEW_SHA256=$(shasum -a 256 "devops-bridge-${NEW_VERSION}.tar.gz" | cut -d' ' -f1)
         if [ ! -z "$NEW_SHA256" ]; then
             break
         fi
@@ -65,7 +65,7 @@ fi
 cd - > /dev/null
 rm -rf "$TEMP_DIR"
 
-# Update local formula in bdc-bridge repository
+# Update local formula in devops-bridge repository
 echo "Updating local formula..."
 sed -i '' "s|url \".*\"|url \"https://github.com/${REPO}/archive/v${NEW_VERSION}.tar.gz\"|" "$LOCAL_FORMULA_PATH"
 sed -i '' "s|sha256 \".*\"|sha256 \"${NEW_SHA256}\"|" "$LOCAL_FORMULA_PATH"
@@ -80,7 +80,7 @@ fi
 # Commit local changes
 echo "Committing local changes..."
 git add "$LOCAL_FORMULA_PATH"
-git commit --allow-empty -m "Update local formula to version ${NEW_VERSION}"
+git commit --allow-empty -m "Update devops-cli to version ${NEW_VERSION}"
 git push origin main
 
 # Clone the tap repository if it doesn't exist
@@ -106,7 +106,7 @@ fi
 # Force commit and push changes to tap
 echo "Committing and pushing tap changes..."
 git add "$TAP_FORMULA_PATH"
-git commit --allow-empty -m "Update bdc-cli to version ${NEW_VERSION}"
+git commit --allow-empty -m "Update devops-cli to version ${NEW_VERSION}"
 git push origin main
 
 # Clean up

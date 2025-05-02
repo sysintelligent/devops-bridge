@@ -1,7 +1,7 @@
-class BdcCli < Formula
+class DevopsCli < Formula
   desc "A tool between developers and complex backend infrastructure"
-  homepage "https://github.com/sysintelligent/bdc-bridge"
-  url "https://github.com/sysintelligent/bdc-bridge/archive/v1.0.4.tar.gz"
+  homepage "https://github.com/sysintelligent/devops-bridge"
+  url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.4.tar.gz"
   sha256 "34984464a7b55856a2a4c2a60e5ab711cf475caebbc742746b68a5bc35951241"
 
   depends_on "go" => :build
@@ -10,31 +10,31 @@ class BdcCli < Formula
 
   def install
     # Build the Go binary
-    system "go", "build", "-ldflags", "-X 'github.com/sysintelligent/bdc-bridge/cmd/bdc-cli/cmd.Version=#{version}'", "-o", "bdc-cli-bin", "./cmd/bdc-cli"
-    libexec.install "bdc-cli-bin"
+    system "go", "build", "-ldflags", "-X 'github.com/sysintelligent/devops-bridge/cmd/devops-cli/cmd.Version=#{version}'", "-o", "devops-cli-bin", "./cmd/devops-cli"
+    libexec.install "devops-cli-bin"
     
     # Create a wrapper script that sets up the user's home directory for UI files
-    (bin/"bdc-cli").write <<~EOS
+    (bin/"devops-cli").write <<~EOS
       #!/bin/bash
       
-      # Create user home directory for bdc-cli if it doesn't exist
-      USER_BDC_DIR="${HOME}/.bdc-cli"
-      USER_UI_DIR="${USER_BDC_DIR}/ui"
-      USER_CONFIG_FILE="${USER_BDC_DIR}/config.json"
+      # Create user home directory for devops-cli if it doesn't exist
+      USER_DEVOPS_DIR="${HOME}/.devops-cli"
+      USER_UI_DIR="${USER_DEVOPS_DIR}/ui"
+      USER_CONFIG_FILE="${USER_DEVOPS_DIR}/config.json"
       
-      if [ ! -d "${USER_BDC_DIR}" ]; then
-        mkdir -p "${USER_BDC_DIR}"
+      if [ ! -d "${USER_DEVOPS_DIR}" ]; then
+        mkdir -p "${USER_DEVOPS_DIR}"
         # Create a default configuration file if it doesn't exist
         if [ ! -f "${USER_CONFIG_FILE}" ]; then
           echo '{
-            "ui_path": "${HOME}/.bdc-cli/ui"
+            "ui_path": "${HOME}/.devops-cli/ui"
           }' > "${USER_CONFIG_FILE}"
         fi
       fi
       
       if [ ! -d "${USER_UI_DIR}" ]; then
         mkdir -p "${USER_UI_DIR}"
-        echo "Setting up BDC CLI for first use..."
+        echo "Setting up DevOps CLI for first use..."
         
         # Copy all the UI files
         if [ -d "#{libexec}/ui-files" ]; then
@@ -56,15 +56,15 @@ class BdcCli < Formula
       fi
       
       # Set environment variable to point to user's UI directory and config file
-      export BDC_UI_PATH="${USER_UI_DIR}"
-      export BDC_CONFIG_FILE="${USER_CONFIG_FILE}"
+      export DEVOPS_UI_PATH="${USER_UI_DIR}"
+      export DEVOPS_CONFIG_FILE="${USER_CONFIG_FILE}"
       
       # Execute the main binary
-      exec "#{libexec}/bdc-cli-bin" "$@"
+      exec "#{libexec}/devops-cli-bin" "$@"
     EOS
     
     # Ensure the script is executable
-    chmod 0755, bin/"bdc-cli"
+    chmod 0755, bin/"devops-cli"
 
     # Install UI files to a temporary location in libexec
     mkdir_p "#{libexec}/ui-files"
@@ -98,6 +98,6 @@ class BdcCli < Formula
   end
 
   test do
-    system "#{bin}/bdc-cli", "version"
+    system "#{bin}/devops-cli", "version"
   end
 end 

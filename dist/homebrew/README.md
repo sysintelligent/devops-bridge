@@ -1,6 +1,6 @@
-# BDC CLI Package Management
+# DevOps CLI Package Management
 
-This directory contains distribution configurations for distributing the BDC CLI tool via Homebrew.
+This directory contains distribution configurations for distributing the DevOps CLI tool via Homebrew.
 
 ## Table of Contents
 - [Formula Management](#formula-management)
@@ -59,9 +59,9 @@ If you need to update the formula manually:
 1. Create a new release on GitHub (e.g., v1.0.2)
 2. Calculate the SHA256 hash of the release tarball:
    ```bash
-   curl -L https://github.com/sysintelligent/bdc-bridge/archive/v1.0.2.tar.gz | shasum -a 256
+   curl -L https://github.com/sysintelligent/devops-bridge/archive/v1.0.2.tar.gz | shasum -a 256
    ```
-3. Update `bdc-cli.rb` with:
+3. Update `devops-cli.rb` with:
    - New version number in the URL
    - New SHA256 hash
 
@@ -71,34 +71,34 @@ Test the formula before pushing to the tap:
 
 ```bash
 # Install from the local formula
-brew install --build-from-source ./bdc-cli.rb
+brew install --build-from-source ./devops-cli.rb
 
 # Verify installation
-bdc-cli version
+devops-cli version
 
 # Test the dashboard
-bdc-cli admin dashboard
+devops-cli admin dashboard
 ```
 
 ### Using the Custom Tap
 
-The BDC CLI is distributed through our custom Homebrew tap at [sysintelligent/homebrew-sysintelligent](https://github.com/sysintelligent/homebrew-sysintelligent). To use it:
+The DevOps CLI is distributed through our custom Homebrew tap at [sysintelligent/homebrew-sysintelligent](https://github.com/sysintelligent/homebrew-sysintelligent). To use it:
 
 1. Add the tap to your Homebrew installation:
    ```bash
    brew tap sysintelligent/sysintelligent git@github.com:sysintelligent/homebrew-sysintelligent.git
    ```
 
-2. Install the BDC CLI:
+2. Install the DevOps CLI:
    ```bash
-   brew install sysintelligent/sysintelligent/bdc-cli
+   brew install sysintelligent/sysintelligent/devops-cli
    ```
 
 The `update_version.sh` script automatically updates both the local formula and the tap repository when a new version is released.
 
 ## Current Version
 
-The current version can be found in `bdc-cli.rb`. To check the latest version:
+The current version can be found in `devops-cli.rb`. To check the latest version:
 ```bash
-grep "version" bdc-cli.rb
+grep "version" devops-cli.rb
 ```
