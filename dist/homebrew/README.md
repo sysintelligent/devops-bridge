@@ -61,7 +61,7 @@ If you need to update the formula manually:
    ```bash
    curl -L https://github.com/sysintelligent/devops-bridge/archive/v1.0.2.tar.gz | shasum -a 256
    ```
-3. Update `devops-cli.rb` with:
+3. Update `dopctl.rb` with:
    - New version number in the URL
    - New SHA256 hash
 
@@ -71,13 +71,13 @@ Test the formula before pushing to the tap:
 
 ```bash
 # Install from the local formula
-brew install --build-from-source ./devops-cli.rb
+brew install --build-from-source ./dopctl.rb
 
 # Verify installation
-devops-cli version
+dopctl version
 
 # Test the dashboard
-devops-cli admin dashboard
+dopctl admin dashboard
 ```
 
 ### Using the Custom Tap
@@ -91,14 +91,14 @@ The DevOps CLI is distributed through our custom Homebrew tap at [sysintelligent
 
 2. Install the DevOps CLI:
    ```bash
-   brew install sysintelligent/sysintelligent/devops-cli
+   brew install sysintelligent/sysintelligent/dopctl
    ```
 
 The `update_version.sh` script automatically updates both the local formula and the tap repository when a new version is released.
 
 ## Current Version
 
-The current version can be found in `devops-cli.rb`. To check the latest version:
+The current version can be found in `dopctl.rb`. To check the latest version:
 ```bash
-grep "version" devops-cli.rb
+grep "version" dopctl.rb
 ```

@@ -39,7 +39,7 @@ Thumbs.db
 /bin/
 ui/build/
 server/static/
-cmd/devops-cli/devops-cli
+cmd/dopctl/dopctl
 server/devops-server
 
 # Environment variables

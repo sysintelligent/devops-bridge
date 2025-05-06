@@ -22,8 +22,8 @@ var dashboardCmd = &cobra.Command{
 	Long: `Open the DevOps Bridge dashboard in your default browser.
 This command checks for the UI path in the following order:
 1. DEVOPS_UI_PATH environment variable
-2. User's home directory (~/.devops-cli/ui)
-3. System configuration (/opt/homebrew/etc/devops-cli.conf)
+2. User's home directory (~/.dopctl/ui)
+3. System configuration (/opt/homebrew/etc/dopctl.conf)
 and opens the main DevOps Bridge dashboard UI in your default browser.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Get home directory
@@ -40,14 +40,14 @@ and opens the main DevOps Bridge dashboard UI in your default browser.`,
 		}
 
 		// Check user's home directory
-		userUIDir := filepath.Join(home, ".devops-cli", "ui")
+		userUIDir := filepath.Join(home, ".dopctl", "ui")
 		if _, err := os.Stat(userUIDir); err == nil {
 			openBrowserURL(userUIDir)
 			return
 		}
 
 		// Check system configuration
-		systemConfigPath := "/opt/homebrew/etc/devops-cli.conf"
+		systemConfigPath := "/opt/homebrew/etc/dopctl.conf"
 		if _, err := os.Stat(systemConfigPath); err == nil {
 			// Read config file and extract UI path
 			// This is a placeholder - implement actual config reading
@@ -105,7 +105,7 @@ func startDashboardServer() {
 		// Check user's home directory
 		home, err := os.UserHomeDir()
 		if err == nil {
-			userUIDir := filepath.Join(home, ".devops-cli", "ui")
+			userUIDir := filepath.Join(home, ".dopctl", "ui")
 			if _, err := os.Stat(userUIDir); err == nil {
 				uiPath = userUIDir
 			}
@@ -113,7 +113,7 @@ func startDashboardServer() {
 
 		// If not found in user's home, check the system-wide config
 		if uiPath == "" {
-			systemConfigPath := "/opt/homebrew/etc/devops-cli.conf"
+			systemConfigPath := "/opt/homebrew/etc/dopctl.conf"
 			if _, err := os.Stat(systemConfigPath); err == nil {
 				// Read config file
 				configBytes, err := ioutil.ReadFile(systemConfigPath)

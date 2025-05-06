@@ -1,4 +1,4 @@
-class DevopsCli < Formula
+class Dopctl < Formula
   desc "A tool between developers and complex backend infrastructure"
   homepage "https://github.com/sysintelligent/devops-bridge"
   url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.2.tar.gz"
@@ -10,15 +10,15 @@ class DevopsCli < Formula
 
   def install
     # Build the Go binary
-    system "go", "build", "-ldflags", "-X 'github.com/sysintelligent/devops-bridge/cmd/devops-cli/cmd.Version=#{version}'", "-o", "devops-cli-bin", "./cmd/devops-cli"
-    libexec.install "devops-cli-bin"
+    system "go", "build", "-ldflags", "-X 'github.com/sysintelligent/devops-bridge/cmd/dopctl/cmd.Version=#{version}'", "-o", "dopctl-bin", "./cmd/dopctl"
+    libexec.install "dopctl-bin"
     
     # Create a wrapper script that sets up the user's home directory for UI files
-    (bin/"devops-cli").write <<~EOS
+    (bin/"dopctl").write <<~EOS
       #!/bin/bash
       
-      # Create user home directory for devops-cli if it doesn't exist
-      USER_DEVOPS_DIR="${HOME}/.devops-cli"
+      # Create user home directory for dopctl if it doesn't exist
+      USER_DEVOPS_DIR="${HOME}/.dopctl"
       USER_UI_DIR="${USER_DEVOPS_DIR}/ui"
       USER_CONFIG_FILE="${USER_DEVOPS_DIR}/config.json"
       
@@ -27,7 +27,7 @@ class DevopsCli < Formula
         # Create a default configuration file if it doesn't exist
         if [ ! -f "${USER_CONFIG_FILE}" ]; then
           echo '{
-            "ui_path": "${HOME}/.devops-cli/ui"
+            "ui_path": "${HOME}/.dopctl/ui"
           }' > "${USER_CONFIG_FILE}"
         fi
       fi
@@ -60,11 +60,11 @@ class DevopsCli < Formula
       export DEVOPS_CONFIG_FILE="${USER_CONFIG_FILE}"
       
       # Execute the main binary
-      exec "#{libexec}/devops-cli-bin" "$@"
+      exec "#{libexec}/dopctl-bin" "$@"
     EOS
     
     # Ensure the script is executable
-    chmod 0755, bin/"devops-cli"
+    chmod 0755, bin/"dopctl"
 
     # Install UI files to a temporary location in libexec
     mkdir_p "#{libexec}/ui-files"
@@ -98,6 +98,6 @@ class DevopsCli < Formula
   end
 
   test do
-    system "#{bin}/devops-cli", "version"
+    system "#{bin}/dopctl", "version"
   end
 end 

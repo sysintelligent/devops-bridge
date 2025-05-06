@@ -36,10 +36,10 @@ devops-bridge/
 │   ├── auth/             # Authentication and RBAC
 │   └── kubernetes/       # Kubernetes client integration
 └── cmd/                  # CLI implementation using Cobra
-    └── devops-cli/       # CLI source code
+    └── dopctl/          # CLI source code
 └── dist/                 # Package distribution files
     └── homebrew/         # Homebrew formula for CLI installation
-        └── devops-cli.rb # Homebrew formula definition
+        └── dopctl.rb    # Homebrew formula definition
 ```
 
 The UI structure follows modern Next.js best practices with a dedicated `src` directory that provides:
@@ -147,13 +147,13 @@ After importing, you can use the component in your pages or components. You may 
 
 1. Build the CLI:
 ```bash
-cd cmd/devops-cli
-go build -o devops-cli
+cd cmd/dopctl
+go build -o dopctl
 ```
 
 2. Open the dashboard:
 ```bash
-./devops-cli admin dashboard
+./dopctl admin dashboard
 ```
 
 This will start the Next.js server if not running and open the dashboard in your browser.
@@ -169,17 +169,17 @@ brew tap sysintelligent/sysintelligent
 
 2. Install the CLI:
 ```bash
-brew install sysintelligent/sysintelligent/devops-cli
+brew install sysintelligent/sysintelligent/dopctl
 ```
 
 3. Verify the installation:
 ```bash
-devops-cli version
+dopctl version
 ```
 
 To uninstall the CLI:
 ```bash
-brew uninstall sysintelligent/sysintelligent/devops-cli
+brew uninstall sysintelligent/sysintelligent/dopctl
 ```
 
 ## API Documentation

@@ -11,8 +11,8 @@ if [ -z "$1" ]; then
 fi
 
 NEW_VERSION=$1
-LOCAL_FORMULA_PATH="devops-cli.rb"  # Formula in the current directory
-TAP_FORMULA_PATH="Formula/devops-cli.rb"  # Formula in the tap repository
+LOCAL_FORMULA_PATH="dopctl.rb"  # Formula in the current directory
+TAP_FORMULA_PATH="Formula/dopctl.rb"  # Formula in the tap repository
 REPO="sysintelligent/devops-bridge"
 TAP_REPO="sysintelligent/homebrew-sysintelligent"
 TAP_DIR="${HOME}/homebrew-sysintelligent"
@@ -80,7 +80,7 @@ fi
 # Commit local changes
 echo "Committing local changes..."
 git add "$LOCAL_FORMULA_PATH"
-git commit --allow-empty -m "Update devops-cli to version ${NEW_VERSION}"
+git commit --allow-empty -m "Update dopctl to version ${NEW_VERSION}"
 git push origin main
 
 # Clone the tap repository if it doesn't exist
@@ -106,7 +106,7 @@ fi
 # Force commit and push changes to tap
 echo "Committing and pushing tap changes..."
 git add "$TAP_FORMULA_PATH"
-git commit --allow-empty -m "Update devops-cli to version ${NEW_VERSION}"
+git commit --allow-empty -m "Update dopctl to version ${NEW_VERSION}"
 git push origin main
 
 # Clean up

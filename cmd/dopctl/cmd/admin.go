@@ -14,7 +14,7 @@ var adminCmd = &cobra.Command{
 These commands are typically used by administrators to configure and
 manage the application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Use one of the admin subcommands. Run 'devops-cli admin --help' for usage.")
+		fmt.Println("Use one of the admin subcommands. Run 'dopctl admin --help' for usage.")
 	},
 }
 
