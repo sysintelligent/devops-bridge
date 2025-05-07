@@ -1,15 +1,12 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -26,42 +23,12 @@ This command checks for the UI path in the following order:
 3. System configuration (/opt/homebrew/etc/dopctl.conf)
 and opens the main DevOps Bridge dashboard UI in your default browser.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Get home directory
-		home, err := os.UserHomeDir()
-		if err != nil {
-			fmt.Println("Error getting home directory:", err)
-			return
-		}
-
-		// Check environment variable first
-		if envPath := os.Getenv("DEVOPS_UI_PATH"); envPath != "" {
-			openBrowserURL(envPath)
-			return
-		}
-
-		// Check user's home directory
-		userUIDir := filepath.Join(home, ".dopctl", "ui")
-		if _, err := os.Stat(userUIDir); err == nil {
-			openBrowserURL(userUIDir)
-			return
-		}
-
-		// Check system configuration
-		systemConfigPath := "/opt/homebrew/etc/dopctl.conf"
-		if _, err := os.Stat(systemConfigPath); err == nil {
-			// Read config file and extract UI path
-			// This is a placeholder - implement actual config reading
-			openBrowserURL(systemConfigPath)
-			return
-		}
-
-		fmt.Println("Please make sure DevOps CLI is installed correctly.")
-		fmt.Println("The UI path could not be found in any of the expected locations.")
+		startDashboard()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(dashboardCmd)
+	adminCmd.AddCommand(dashboardCmd)
 	dashboardCmd.Flags().BoolVarP(&openBrowser, "open", "o", true, "Open the dashboard in the default browser")
 	dashboardCmd.Flags().IntVarP(&port, "port", "p", 3000, "Port to run the dashboard on")
 }
@@ -86,23 +53,31 @@ func startDashboard() {
 }
 
 func isDashboardRunning() bool {
-	resp, err := http.Get(fmt.Sprintf("http://localhost:%d/health", port))
+	resp, err := http.Get(fmt.Sprintf("http://localhost:%d", port))
 	if err != nil {
 		return false
 	}
 	defer resp.Body.Close()
-	return resp.StatusCode == http.StatusOK
+	return resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusNotFound
 }
 
 func startDashboardServer() {
 	// Try to find UI path from configuration file
 	uiPath := ""
 
-	// First check environment variable
-	if envPath := os.Getenv("DEVOPS_UI_PATH"); envPath != "" {
-		uiPath = envPath
-	} else {
-		// Check user's home directory
+	// First check project directory
+	projectUIPath := "ui"
+	if _, err := os.Stat(projectUIPath); err == nil {
+		uiPath = projectUIPath
+	}
+
+	// If not found in project directory, check environment variable
+	if uiPath == "" && os.Getenv("DEVOPS_UI_PATH") != "" {
+		uiPath = os.Getenv("DEVOPS_UI_PATH")
+	}
+
+	// If still not found, check user's home directory
+	if uiPath == "" {
 		home, err := os.UserHomeDir()
 		if err == nil {
 			userUIDir := filepath.Join(home, ".dopctl", "ui")
@@ -110,39 +85,16 @@ func startDashboardServer() {
 				uiPath = userUIDir
 			}
 		}
+	}
 
-		// If not found in user's home, check the system-wide config
-		if uiPath == "" {
-			systemConfigPath := "/opt/homebrew/etc/dopctl.conf"
-			if _, err := os.Stat(systemConfigPath); err == nil {
-				// Read config file
-				configBytes, err := ioutil.ReadFile(systemConfigPath)
-				if err == nil {
-					var config struct {
-						UIPath string `json:"ui_path"`
-					}
-					if err := json.Unmarshal(configBytes, &config); err == nil {
-						// Expand environment variables in the path
-						if strings.Contains(config.UIPath, "${HOME}") || strings.Contains(config.UIPath, "$HOME") {
-							home, err := os.UserHomeDir()
-							if err == nil {
-								config.UIPath = strings.Replace(config.UIPath, "${HOME}", home, -1)
-								config.UIPath = strings.Replace(config.UIPath, "$HOME", home, -1)
-							}
-						}
-						uiPath = config.UIPath
-					}
-				}
-			}
-
-			// If no UI path found in system config, try development paths
-			if uiPath == "" {
-				// Try development path first
-				devPath := "../../ui"
-				if _, err := os.Stat(devPath); err == nil {
-					uiPath = devPath
-				}
-			}
+	// If still not found, check system-wide config
+	if uiPath == "" {
+		systemConfigPath := "/opt/homebrew/etc/dopctl.conf"
+		if _, err := os.Stat(systemConfigPath); err == nil {
+			// Read config file and extract UI path
+			// This is a placeholder - implement actual config reading
+			openBrowserURL(systemConfigPath)
+			return
 		}
 	}
 
