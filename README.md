@@ -2,62 +2,80 @@
 
 A tool between developers and complex backend infrastructure, inspired by Argo CD. It gives developers the edge they need to succeed while simplifying platform complexities.
 
+## Key Features
+- Clean and minimalist design with responsive layout
+- Dark mode support and customizable theme using CSS variables
+- Component-based architecture using React and Next.js
+- Type-safe development with TypeScript
+- Modern styling with Tailwind CSS
+
 ## Table of Contents
 
-1. [Project Structure](#project-structure)
-2. [Architecture](#architecture)
-3. [Development Setup](#development-setup)
+1. [Installation](#installation)
    - [Prerequisites](#prerequisites)
-   - [Building and Running](#building-and-running)
-     - [Backend Server](#backend-server)
-     - [Frontend Development](#frontend-development)
-     - [CLI](#cli)
-4. [Features](#features)
+   - [Installing via Homebrew](#installing-via-homebrew)
+   - [Manual Installation](#manual-installation)
+2. [Architecture](#architecture)
+3. [Project Structure](#project-structure)
+4. [Development Setup](#development-setup)
+   - [Backend Server](#backend-server)
+   - [Frontend Development](#frontend-development)
+   - [CLI](#cli)
 5. [API Documentation](#api-documentation)
 6. [Authentication](#authentication)
 7. [Contributing](#contributing)
 
-## Project Structure
+## Installation
 
-The project is organized into three main components:
+### Prerequisites
 
-```
-devops-bridge/
-├── ui/                   # Next.js TypeScript frontend
-│   ├── src/              # Source code directory
-│   │   ├── app/          # Next.js App Router pages and layouts
-│   │   ├── components/   # Reusable UI components
-│   │   ├── lib/          # Utility functions and shared code
-│   │   └── globals.css   # Global styles and Tailwind configuration
-│   ├── public/           # Static assets
-│   └── scripts/          # Build and utility scripts
-├── server/               # Go backend server
-│   ├── api/              # REST and gRPC API definitions
-│   ├── auth/             # Authentication and RBAC
-│   └── kubernetes/       # Kubernetes client integration
-└── cmd/                  # CLI implementation using Cobra
-    └── dopctl/          # CLI source code
-└── dist/                 # Package distribution files
-    └── homebrew/         # Homebrew formula for CLI installation
-        └── dopctl.rb    # Homebrew formula definition
+- Go 1.19+
+- Node.js 18+ (recommended for Next.js 14)
+- npm 9+ or yarn
+- Kubernetes cluster or minikube
+
+### Installing via Homebrew
+
+You can install the DevOps CLI using Homebrew:
+
+1. Add the Sysintelligent tap:
+```bash
+brew tap sysintelligent/sysintelligent
 ```
 
-The UI structure follows modern Next.js best practices with a dedicated `src` directory that provides:
-- Clean separation between source code and configuration files
-- Minimal and focused component structure
-- Clear separation of concerns between different parts of the application
-- Scalable architecture for adding new features
-- Modern styling with Tailwind CSS and CSS variables for theming
+2. Install the CLI:
+```bash
+brew install sysintelligent/sysintelligent/dopctl
+```
 
-## Features
+3. Verify the installation:
+```bash
+dopctl version
+```
 
-### Modern UI
-- Clean and minimalist design
-- Responsive layout
-- Dark mode support
-- Customizable theme using CSS variables
-- Component-based architecture using React and Next.js
-- Type-safe development with TypeScript
+To uninstall the CLI:
+```bash
+brew uninstall sysintelligent/sysintelligent/dopctl
+```
+
+### Manual Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/sysintelligent/devops-bridge.git
+cd devops-bridge
+```
+
+2. Build the CLI:
+```bash
+cd cmd/dopctl
+go build -o dopctl
+```
+
+3. Move the binary to your PATH:
+```bash
+sudo mv dopctl /usr/local/bin/
+```
 
 ## Architecture
 
@@ -82,18 +100,34 @@ DevOps Bridge uses a modern, microservices-based architecture:
    - Integrates with both backend and frontend
    - Provides dashboard access via browser
 
+## Project Structure
+
+The project is organized into three main components:
+
+```
+devops-bridge/
+├── ui/                   # Next.js TypeScript frontend
+│   ├── src/              # Source code directory
+│   │   ├── app/          # Next.js App Router pages and layouts
+│   │   ├── components/   # Reusable UI components
+│   │   ├── lib/          # Utility functions and shared code
+│   │   └── globals.css   # Global styles and Tailwind configuration
+│   ├── public/           # Static assets
+│   └── scripts/          # Build and utility scripts
+├── server/               # Go backend server
+│   ├── api/              # REST and gRPC API definitions
+│   ├── auth/             # Authentication and RBAC
+│   └── kubernetes/       # Kubernetes client integration
+└── cmd/                  # CLI implementation using Cobra
+    └── dopctl/           # CLI source code
+└── dist/                 # Package distribution files
+    └── homebrew/         # Homebrew formula for CLI installation
+        └── dopctl.rb     # Homebrew formula definition
+```   
+
 ## Development Setup
 
-### Prerequisites
-
-- Go 1.19+
-- Node.js 18+ (recommended for Next.js 14)
-- npm 9+ or yarn
-- Kubernetes cluster or minikube
-
-### Building and Running
-
-#### Backend Server
+### Backend Server
 
 1. Start the Go backend server:
 ```bash
@@ -106,7 +140,7 @@ The server will start on:
 - HTTP API: http://localhost:8080
 - gRPC: localhost:9090
 
-#### Frontend Development
+### Frontend Development
 
 1. Install dependencies:
 ```bash
@@ -149,44 +183,14 @@ This will:
 
 After importing, you can use the component in your pages or components. You may need to restart your development server after adding new components.
 
-#### CLI
+### CLI
 
-1. Build the CLI:
-```bash
-cd cmd/dopctl
-go build -o dopctl
-```
-
-2. Open the dashboard:
+1. Open the dashboard:
 ```bash
 ./dopctl admin dashboard
 ```
 
 This will start the Next.js server if not running and open the dashboard in your browser.
-
-#### Installing via Homebrew
-
-You can install the DevOps CLI using Homebrew:
-
-1. Add the Sysintelligent tap:
-```bash
-brew tap sysintelligent/sysintelligent
-```
-
-2. Install the CLI:
-```bash
-brew install sysintelligent/sysintelligent/dopctl
-```
-
-3. Verify the installation:
-```bash
-dopctl version
-```
-
-To uninstall the CLI:
-```bash
-brew uninstall sysintelligent/sysintelligent/dopctl
-```
 
 ## API Documentation
 
