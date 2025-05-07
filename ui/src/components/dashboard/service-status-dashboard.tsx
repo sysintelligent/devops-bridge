@@ -25,13 +25,13 @@ export function ServiceStatusDashboard() {
   const dates = generateDates()
 
   const services = [
-    { name: "HANA Database", statuses: generateRandomStatuses() },
-    { name: "XSUAA", statuses: generateRandomStatuses(true) },
-    { name: "Analytics", statuses: generateRandomStatuses() },
-    { name: "ML Training", statuses: generateRandomStatuses() },
-    { name: "Data Processing", statuses: generateRandomStatuses(true) },
+    { name: "API Gateway", statuses: generateRandomStatuses() },
+    { name: "Authentication", statuses: generateRandomStatuses() },
     { name: "Backup Services", statuses: generateRandomStatuses() },
-    { name: "Monitoring Services", statuses: generateRandomStatuses() },
+    { name: "Data Processing", statuses: generateRandomStatuses(true) },
+    { name: "Logging Service", statuses: generateRandomStatuses() },
+    { name: "Monitoring", statuses: generateRandomStatuses() },
+    { name: "Notification Service", statuses: generateRandomStatuses() },
   ]
 
   function generateRandomStatuses(includeIssues = false) {
