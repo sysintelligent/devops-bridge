@@ -32,27 +32,30 @@ class Dopctl < Formula
         fi
       fi
       
-      if [ ! -d "${USER_UI_DIR}" ]; then
-        mkdir -p "${USER_UI_DIR}"
-        echo "Setting up DevOps CLI for first use..."
+      # Always ensure UI directory exists
+      mkdir -p "${USER_UI_DIR}"
+      
+      # Always update UI files
+      if [ -d "#{libexec}/ui-files" ]; then
+        echo "Updating UI files..."
+        # Remove existing UI files
+        rm -rf "${USER_UI_DIR:?}"/*
         
         # Copy all the UI files
-        if [ -d "#{libexec}/ui-files" ]; then
-          cp -R "#{libexec}/ui-files/"* "${USER_UI_DIR}/" 2>/dev/null || true
-          
-          # Copy hidden files and directories
-          if [ -d "#{libexec}/ui-files/.next" ]; then
-            mkdir -p "${USER_UI_DIR}/.next"
-            cp -R "#{libexec}/ui-files/.next/"* "${USER_UI_DIR}/.next/" 2>/dev/null || true
-          fi
-          
-          # Install dependencies
-          echo "Installing Node.js dependencies..."
-          cd "${USER_UI_DIR}"
-          npm install --quiet
-        else
-          echo "Warning: UI files not found. Some features may not work correctly."
+        cp -R "#{libexec}/ui-files/"* "${USER_UI_DIR}/" 2>/dev/null || true
+        
+        # Copy hidden files and directories
+        if [ -d "#{libexec}/ui-files/.next" ]; then
+          mkdir -p "${USER_UI_DIR}/.next"
+          cp -R "#{libexec}/ui-files/.next/"* "${USER_UI_DIR}/.next/" 2>/dev/null || true
         fi
+        
+        # Install dependencies
+        echo "Installing Node.js dependencies..."
+        cd "${USER_UI_DIR}"
+        npm install --quiet
+      else
+        echo "Warning: UI files not found. Some features may not work correctly."
       fi
       
       # Set environment variable to point to user's UI directory and config file
