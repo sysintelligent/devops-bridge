@@ -3,6 +3,12 @@
 # Exit on error
 set -e
 
+# Build the UI before packaging
+cd ../../ui
+npm install
+npm run build
+cd ../dist/homebrew
+
 # Check if version is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <new-version>"

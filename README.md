@@ -121,6 +121,12 @@ npm run dev
 
 The UI will be available at http://localhost:3000
 
+3. **Build the UI for production or packaging:**
+```bash
+npm run build
+```
+This will build the latest UI assets. The build step is also automatically run as part of the release process in `dist/homebrew/update_version.sh`.
+
 #### Importing Components from v0.dev
 
 To import components from v0.dev into your project:
@@ -226,4 +232,4 @@ The server supports two types of authentication tokens:
 2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
-5. Create a new Pull Request 
+5. Create a new Pull Request
