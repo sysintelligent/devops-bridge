@@ -1,8 +1,8 @@
 class Dopctl < Formula
   desc "A tool between developers and complex backend infrastructure"
   homepage "https://github.com/sysintelligent/devops-bridge"
-  url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.0.tar.gz"
-  sha256 "584510a4f275bea469d9ca17aacecaa4e2bc13bb60d9c4434341f15a147ff7cb"
+  url "https://github.com/sysintelligent/devops-bridge/archive/v1.0.1.tar.gz"
+  sha256 "5b0c5cd80be4a689150d152aca6439b8d1d24f78c3795c040af4dbe52787de2d"
 
   depends_on "go" => :build
   depends_on "node" => :build
