@@ -38,24 +38,74 @@ class Dopctl < Formula
       # Always update UI files
       if [ -d "#{libexec}/ui-files" ]; then
         echo "Updating UI files..."
-        # Remove existing UI files
-        rm -rf "${USER_UI_DIR:?}"/*
         
-        # Copy all the UI files
-        cp -R "#{libexec}/ui-files/"* "${USER_UI_DIR}/" 2>/dev/null || true
+        # Create a temporary directory for the new files
+        TEMP_UI_DIR=$(mktemp -d)
+        if [ $? -ne 0 ]; then
+          echo "Error: Failed to create temporary directory"
+          exit 1
+        fi
+        
+        # Copy all files to temporary directory first
+        echo "Copying new UI files to temporary location..."
+        cp -R "#{libexec}/ui-files/"* "${TEMP_UI_DIR}/" 2>/dev/null || true
         
         # Copy hidden files and directories
         if [ -d "#{libexec}/ui-files/.next" ]; then
-          mkdir -p "${USER_UI_DIR}/.next"
-          cp -R "#{libexec}/ui-files/.next/"* "${USER_UI_DIR}/.next/" 2>/dev/null || true
+          echo "Copying Next.js build files..."
+          mkdir -p "${TEMP_UI_DIR}/.next"
+          cp -R "#{libexec}/ui-files/.next/"* "${TEMP_UI_DIR}/.next/" 2>/dev/null || true
         fi
+        
+        # Clean up old backups (keep only the last 3)
+        echo "Cleaning up old UI backups..."
+        ls -dt "${USER_UI_DIR}".backup.* 2>/dev/null | tail -n +4 | xargs -r rm -rf
+        
+        # Backup existing UI directory if it exists and has content
+        if [ -d "${USER_UI_DIR}" ] && [ "$(ls -A ${USER_UI_DIR})" ]; then
+          BACKUP_DIR="${USER_UI_DIR}.backup.$(date +%Y%m%d_%H%M%S)"
+          echo "Backing up existing UI files to ${BACKUP_DIR}"
+          if ! mv "${USER_UI_DIR}" "${BACKUP_DIR}"; then
+            echo "Error: Failed to create backup. Aborting update."
+            rm -rf "${TEMP_UI_DIR}"
+            exit 1
+          fi
+        fi
+        
+        # Create fresh UI directory
+        echo "Creating fresh UI directory..."
+        if ! mkdir -p "${USER_UI_DIR}"; then
+          echo "Error: Failed to create UI directory. Restoring from backup..."
+          if [ -d "${BACKUP_DIR}" ]; then
+            mv "${BACKUP_DIR}" "${USER_UI_DIR}"
+          fi
+          rm -rf "${TEMP_UI_DIR}"
+          exit 1
+        fi
+        
+        # Move files from temporary directory to final location
+        echo "Installing new UI files..."
+        if ! mv "${TEMP_UI_DIR}/"* "${USER_UI_DIR}/" 2>/dev/null; then
+          echo "Error: Failed to move files to final location. Restoring from backup..."
+          rm -rf "${USER_UI_DIR}"
+          if [ -d "${BACKUP_DIR}" ]; then
+            mv "${BACKUP_DIR}" "${USER_UI_DIR}"
+          fi
+          rm -rf "${TEMP_UI_DIR}"
+          exit 1
+        fi
+        
+        # Clean up temporary directory
+        rm -rf "${TEMP_UI_DIR}"
         
         # Install dependencies
         echo "Installing Node.js dependencies..."
         cd "${USER_UI_DIR}"
-        npm install --quiet
+        if ! npm install --quiet; then
+          echo "Warning: Failed to install Node.js dependencies. The UI may not work correctly."
+        fi
       else
-        echo "Warning: UI files not found. Some features may not work correctly."
+        echo "Warning: UI files not found in #{libexec}/ui-files. Some features may not work correctly."
       fi
       
       # Set environment variable to point to user's UI directory and config file
