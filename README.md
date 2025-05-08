@@ -79,6 +79,8 @@ sudo mv dopctl /usr/local/bin/
 
 ## Architecture
 
+<img src="docs/images/architecture.png" alt="DevOps Bridge Core Architecture" style="max-width: 1200px; width: 100%; height: auto;" />
+
 DevOps Bridge uses a modern, microservices-based architecture:
 
 1. **Backend Server (Go)**
