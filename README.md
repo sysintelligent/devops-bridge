@@ -1,13 +1,16 @@
 # DevOps Bridge
 
-A tool between developers and complex backend infrastructure, inspired by Argo CD. It gives developers the edge they need to succeed while simplifying platform complexities.
+A tool between developers and complex backend infrastructure. It gives developers the edge they need to succeed while simplifying platform complexities.
 
 ## Key Features
-- Clean and minimalist design with responsive layout
-- Dark mode support and customizable theme using CSS variables
-- Component-based architecture using React and Next.js
-- Type-safe development with TypeScript
-- Modern styling with Tailwind CSS
+- Modern microservices architecture with Go backend, Next.js frontend, and CLI
+- Next.js App Router for efficient routing and built-in authentication
+- Modern UI stack with Next.js 14, shadcn/ui components, and Tailwind CSS
+- Clean and minimalist design with responsive layout and dark mode support
+- Type-safe development with TypeScript and component-based architecture
+- Kubernetes integration for managing containerized applications
+- Comprehensive API support with both REST and gRPC endpoints
+- Easy installation via custom Homebrew tap with automatic updates
 
 ## Table of Contents
 
@@ -29,23 +32,23 @@ A tool between developers and complex backend infrastructure, inspired by Argo C
 
 ### Prerequisites
 
-- Go 1.19+
-- Node.js 18+ (recommended for Next.js 14)
-- npm 9+ or yarn
-- Kubernetes cluster or minikube
+- Go 1.19+ (required for backend server and CLI)
+- Node.js 18+ (required for frontend development, recommended for Next.js 14)
+- npm 9+ or yarn (required for frontend development)
+- Kubernetes cluster or minikube (required only for backend server functionality, not needed for dashboard UI)
 
 ### Installing via Homebrew
 
 You can install the DevOps CLI using Homebrew:
 
-1. Add the Sysintelligent tap:
+1. Add the custom tap:
 ```bash
 brew tap sysintelligent/sysintelligent
 ```
 
 2. Install the CLI:
 ```bash
-brew install sysintelligent/sysintelligent/dopctl
+brew install dopctl
 ```
 
 3. Verify the installation:
@@ -55,7 +58,7 @@ dopctl version
 
 To uninstall the CLI:
 ```bash
-brew uninstall sysintelligent/sysintelligent/dopctl
+brew uninstall dopctl
 ```
 
 ### Manual Installation
@@ -142,6 +145,12 @@ The server will start on:
 - HTTP API: http://localhost:8080
 - gRPC: localhost:9090
 
+2. Test the server using curl:
+```bash
+curl http://localhost:8080/health
+```
+You should see "OK" as the response if the server is running correctly.
+
 ### Frontend Development
 
 1. Install dependencies:
@@ -187,7 +196,13 @@ After importing, you can use the component in your pages or components. You may 
 
 ### CLI
 
-1. Open the dashboard:
+1. Build the CLI:
+```bash
+cd cmd/dopctl
+go build -o dopctl
+```
+
+2. Open the dashboard:
 ```bash
 ./dopctl admin dashboard
 ```
