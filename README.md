@@ -11,6 +11,7 @@ A tool between developers and complex backend infrastructure. It gives developer
 - Kubernetes integration for managing containerized applications
 - Comprehensive API support with both REST and gRPC endpoints
 - Easy installation via custom Homebrew tap with automatic updates
+- Extensible architecture allowing custom integrations, UI components, and CLI extensions
 
 ## Table of Contents
 
