@@ -62,6 +62,12 @@ brew install dopctl
 dopctl version
 ```
 
+4. Open the dashboard:
+```bash
+dopctl admin dashboard
+```
+_Note: On first run, it may take a little time to initialize the Next.js server._
+
 ### Cleanup
 
 To remove the DevOps CLI and clean up the Homebrew tap:
