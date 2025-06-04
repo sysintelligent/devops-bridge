@@ -2,11 +2,6 @@
 
 A tool between developers and complex backend infrastructure. It gives developers the edge they need to succeed while simplifying platform complexities.
 
-<div align="center">
-  <img src="docs/images/dopctl-admin-dashboard-example.png" alt="DevOps Bridge Admin Dashboard Example" width="800" style="border: 5px solid #000;" />
-  <p><em>Admin Dashboard Mockup</em></p>
-</div>
-
 ## Key Features
 - Modern microservices architecture with Go backend, Next.js frontend, and CLI
 - Next.js App Router for efficient routing and built-in authentication
@@ -17,6 +12,11 @@ A tool between developers and complex backend infrastructure. It gives developer
 - Comprehensive API support with both REST and gRPC endpoints
 - Easy installation via custom Homebrew tap with automatic updates
 - Extensible architecture allowing custom integrations, UI components, and CLI extensions
+
+<div align="center">
+  <img src="docs/images/dopctl-admin-dashboard-example.png" alt="DevOps Bridge Admin Dashboard Example" width="800" style="border: 1px solid #000;" />
+  <p><em>Admin Dashboard Mockup</em></p>
+</div>
 
 ## Table of Contents
 
