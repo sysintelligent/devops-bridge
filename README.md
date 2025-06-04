@@ -3,7 +3,8 @@
 A tool between developers and complex backend infrastructure. It gives developers the edge they need to succeed while simplifying platform complexities.
 
 <div align="center">
-  <img src="docs/images/dopctl-admin-dashboard-example.png" alt="DevOps Bridge Admin Dashboard Example" width="800" />
+  <img src="docs/images/dopctl-admin-dashboard-example.png" alt="DevOps Bridge Admin Dashboard Example" width="800" style="border: 1px solid #ddd;" />
+  <p><em>Admin Dashboard Mockup</em></p>
 </div>
 
 ## Key Features
