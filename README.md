@@ -13,7 +13,7 @@ A tool between developers and complex backend infrastructure. It gives developer
 - Easy installation via custom Homebrew tap with automatic updates
 - Extensible architecture allowing custom integrations, UI components, and CLI extensions
 
-**Below is a sample admin dashboard UI, built with shadcn/ui and Tailwind CSS, providing a real-time overview of service status and operational health.**
+Below is a sample admin dashboard UI, built with shadcn/ui and Tailwind CSS, providing a real-time overview of service status and operational health.
 
 <div align="center">
   <img src="docs/images/dopctl-admin-dashboard-example.png" alt="DevOps Bridge Admin Dashboard Example" width="800" style="border: 1px solid #000;" />
