@@ -57,10 +57,19 @@ brew install dopctl
 dopctl version
 ```
 
-To uninstall the CLI:
-```bash
-brew uninstall dopctl
-```
+### Cleanup
+
+To remove the DevOps CLI and clean up the Homebrew tap:
+
+1. Uninstall the CLI:
+   ```bash
+   brew uninstall dopctl
+   ```
+
+2. Remove the custom Homebrew tap:
+   ```bash
+   brew untap sysintelligent/sysintelligent
+   ```
 
 ### Manual Installation
 
