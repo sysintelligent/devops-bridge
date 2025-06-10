@@ -163,3 +163,87 @@ cd server
 go mod tidy
 go run main.go
 ```
+
+### Frontend Development
+
+1. Install dependencies:
+```bash
+cd ui
+npm install
+```
+
+2. Start the development server:
+```bash
+npm run dev
+```
+
+The frontend will be available at http://localhost:3000.
+
+### CLI
+
+1. Build the CLI:
+```bash
+cd cmd/dopctl
+go build -o dopctl
+```
+
+2. Install the CLI:
+```bash
+sudo mv dopctl /usr/local/bin/
+```
+
+3. Verify the installation:
+```bash
+dopctl version
+```
+
+## API Documentation
+
+The DevOps Bridge API provides both REST and gRPC endpoints for managing your infrastructure.
+
+### REST API
+
+The REST API is available at `http://localhost:8080/api/` and includes the following endpoints:
+
+- `GET /applications` - List all applications
+- `POST /applications` - Create a new application
+- `GET /applications/{name}` - Get application details
+- `PUT /applications/{name}` - Update an application
+- `DELETE /applications/{name}` - Delete an application
+- `GET /settings` - Get system settings
+- `PUT /settings` - Update system settings
+
+### gRPC API
+
+The gRPC API is available at `localhost:9090` and provides the following services:
+
+- ApplicationService - Manage applications
+- SettingsService - Manage system settings
+- HealthService - Check system health
+
+## Authentication
+
+DevOps Bridge uses token-based authentication. To access the API:
+
+1. Obtain an authentication token
+2. Include the token in the Authorization header:
+   ```
+   Authorization: Bearer <your-token>
+   ```
+
+For development purposes, you can use these demo tokens:
+- User token: `demo-token`
+- Admin token: `admin-token`
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to:
+
+1. Report bugs
+2. Suggest features
+3. Submit pull requests
+4. Follow our coding standards
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
