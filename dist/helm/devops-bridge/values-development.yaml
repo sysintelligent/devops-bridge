@@ -1,0 +1,101 @@
+# Development values for DevOps Bridge
+# This file contains settings suitable for development environments
+
+replicaCount: 1
+
+image:
+  repository: sysintelligent/devops-bridge
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+serviceAccount:
+  create: true
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: NodePort
+  httpPort: 8080
+  grpcPort: 9090
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: devops-bridge.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Configuration for the DevOps Bridge server
+config:
+  # Log level for the application
+  logLevel: "debug"
+  
+  # Authentication settings
+  auth:
+    # Demo tokens for development
+    demoUserToken: "demo-token"
+    demoAdminToken: "admin-token"
+  
+  # Kubernetes client configuration
+  kubernetes:
+    # In-cluster configuration (default: true)
+    inCluster: true
+    # Kubeconfig path (used when inCluster is false)
+    kubeconfig: ""
+  
+  # Server configuration
+  server:
+    # HTTP server configuration
+    http:
+      port: 8080
+      timeout: 30s
+    # gRPC server configuration
+    grpc:
+      port: 9090
+      timeout: 30s
+
+# Persistence configuration (if needed for future features)
+persistence:
+  enabled: false
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+# Monitoring and observability
+monitoring:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    interval: 30s
+  prometheus:
+    enabled: false
+    path: /metrics 

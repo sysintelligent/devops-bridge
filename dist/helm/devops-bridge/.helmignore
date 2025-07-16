@@ -1,0 +1,58 @@
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/
+# OS generated files
+Thumbs.db
+# Helm files
+*.tgz
+*.tar.gz
+# Documentation
+README.md
+QUICKSTART.md
+# Scripts
+deploy.sh
+# Docker files
+Dockerfile
+.dockerignore
+# Development files
+*.log
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+# Test files
+*_test.go
+test/
+tests/
+# Build artifacts
+bin/
+dist/
+build/
+# Dependencies
+node_modules/
+vendor/
+# IDE files
+*.swp
+*.swo
+*~ 
