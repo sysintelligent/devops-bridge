@@ -42,7 +42,7 @@ Create a custom values file:
 # my-values.yaml
 replicaCount: 3
 image:
-  repository: my-registry/devops-bridge
+  repository: sysintelligent/devops-bridge
   tag: "v1.0.0"
 
 service:
@@ -76,7 +76,7 @@ helm install devops-bridge ./dist/helm/devops-bridge -f my-values.yaml
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `replicaCount` | Number of replicas | `1` |
-| `image.repository` | Container image repository | `sysintelligent/devops-bridge` |
+| `image.repository` | Container image repository | `sysintelligent/devops-bridge` (Docker Hub) |
 | `image.tag` | Container image tag | `latest` |
 | `image.pullPolicy` | Container image pull policy | `IfNotPresent` |
 | `service.type` | Kubernetes service type | `ClusterIP` |
@@ -278,9 +278,29 @@ Build the container image using the provided Dockerfile:
 # Build the image
 docker build -f dist/helm/devops-bridge/Dockerfile -t sysintelligent/devops-bridge:latest .
 
-# Push to registry
+# Push to Docker Hub
 docker push sysintelligent/devops-bridge:latest
 ```
+
+### Using the Build Script
+
+For convenience, use the provided build script:
+
+```bash
+# Build and push with latest tag
+./build-and-push.sh
+
+# Build and push with specific tag
+./build-and-push.sh -t v1.0.0
+
+# Build only (don't push)
+./build-and-push.sh -b
+
+# Login to Docker Hub and push
+./build-and-push.sh -l
+```
+
+The image will be available at: https://hub.docker.com/r/sysintelligent/devops-bridge
 
 ## Contributing
 

@@ -46,7 +46,7 @@ Edit `values-production.yaml` with your production settings:
 
 ```yaml
 image:
-  repository: your-registry/devops-bridge
+  repository: sysintelligent/devops-bridge
   tag: "v1.0.0"
 
 ingress:
@@ -76,7 +76,7 @@ helm install devops-bridge . -f values-production.yaml --namespace production
 # my-values.yaml
 replicaCount: 3
 image:
-  repository: my-registry/devops-bridge
+  repository: sysintelligent/devops-bridge
   tag: "latest"
 
 service:
@@ -99,19 +99,32 @@ resources:
 
 ## Building Custom Image
 
-### 1. Build and Deploy
+### 1. Build and Push Image
 
 ```bash
-# Build image and deploy
-./deploy.sh -e development -b
+# Build and push to Docker Hub
+./build-and-push.sh
 
-# Build, push, and deploy
+# Build and push with specific tag
+./build-and-push.sh -t v1.0.0
+
+# Login to Docker Hub and push
+./build-and-push.sh -l
+```
+
+### 2. Deploy with Custom Image
+
+```bash
+# Deploy using the built image
+./deploy.sh -e development
+
+# Or build image and deploy in one step
 ./deploy.sh -e development -b -p
 ```
 
-### 2. Update Image Registry
+### 2. Image Registry
 
-Edit the values file to use your registry:
+The chart is configured to use your Docker Hub repository (`sysintelligent/devops-bridge`). If you need to use a different registry:
 
 ```yaml
 image:
