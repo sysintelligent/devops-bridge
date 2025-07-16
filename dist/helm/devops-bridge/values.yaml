@@ -2,6 +2,15 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Namespace configuration
+namespace:
+  # Create namespace if it doesn't exist
+  create: true
+  # Namespace name (default: devops-bridge)
+  name: "devops-bridge"
+  # Annotations for the namespace
+  annotations: {}
+
 replicaCount: 1
 
 image:

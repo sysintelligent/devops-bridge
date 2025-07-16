@@ -18,6 +18,26 @@ This Helm chart deploys the Go backend server which provides:
 - Kubernetes 1.19+
 - Helm 3.0+
 - kubectl configured to communicate with your cluster
+- Docker (for building and pushing images)
+- Docker Hub account (sysintelligent)
+
+## Quick Reference
+
+### Docker Hub Commands
+```bash
+# Build and push image
+./build-and-push.sh
+
+# Deploy to Kubernetes (uses devops-bridge namespace by default)
+./deploy.sh -e development
+
+# Build, push, and deploy
+./deploy.sh -e development -b -p
+```
+
+### Docker Hub Repository
+- **URL**: https://hub.docker.com/r/sysintelligent/devops-bridge
+- **Image**: `sysintelligent/devops-bridge:latest`
 
 ## Installation
 
@@ -30,7 +50,7 @@ helm repo add devops-bridge https://sysintelligent.github.io/devops-bridge
 # Install the chart
 helm install devops-bridge ./dist/helm/devops-bridge
 
-# Or install from local chart
+# Or install from local chart (creates devops-bridge namespace)
 helm install devops-bridge ./dist/helm/devops-bridge
 ```
 
@@ -40,6 +60,12 @@ Create a custom values file:
 
 ```yaml
 # my-values.yaml
+namespace:
+  create: true
+  name: "devops-bridge"
+  annotations:
+    environment: production
+
 replicaCount: 3
 image:
   repository: sysintelligent/devops-bridge
@@ -75,6 +101,9 @@ helm install devops-bridge ./dist/helm/devops-bridge -f my-values.yaml
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `namespace.create` | Create namespace if it doesn't exist | `true` |
+| `namespace.name` | Namespace name | `devops-bridge` |
+| `namespace.annotations` | Annotations for the namespace | `{}` |
 | `replicaCount` | Number of replicas | `1` |
 | `image.repository` | Container image repository | `sysintelligent/devops-bridge` (Docker Hub) |
 | `image.tag` | Container image tag | `latest` |
@@ -115,6 +144,36 @@ ingress:
     - secretName: devops-bridge-tls
       hosts:
         - devops-bridge.example.com
+```
+
+### Namespace Management
+
+The chart automatically creates and manages the `devops-bridge` namespace:
+
+```yaml
+namespace:
+  create: true
+  name: "devops-bridge"
+  annotations:
+    environment: production
+    managed-by: helm
+```
+
+You can customize the namespace configuration or disable automatic creation:
+
+```yaml
+# Use existing namespace
+namespace:
+  create: false
+  name: "existing-namespace"
+
+# Custom namespace with annotations
+namespace:
+  create: true
+  name: "my-custom-namespace"
+  annotations:
+    team: devops
+    project: bridge
 ```
 
 ### Resource Management
@@ -254,6 +313,43 @@ kubectl describe svc devops-bridge
 3. **Port Conflicts**: Check if ports 8080/9090 are already in use
 4. **Resource Limits**: Adjust resource requests/limits if pods are being evicted
 
+### Docker Hub Specific Issues
+
+1. **Authentication Errors**:
+   ```bash
+   # Login to Docker Hub
+   docker login
+   
+   # Check if you're logged in
+   docker info | grep Username
+   ```
+
+2. **Image Not Found**:
+   ```bash
+   # Check if image exists on Docker Hub
+   docker pull sysintelligent/devops-bridge:latest
+   
+   # Build and push if missing
+   ./build-and-push.sh -l
+   ```
+
+3. **Permission Denied**:
+   ```bash
+   # Ensure you have push access to the repository
+   docker push sysintelligent/devops-bridge:latest
+   
+   # Check repository permissions on Docker Hub
+   ```
+
+4. **Network Issues**:
+   ```bash
+   # Test Docker Hub connectivity
+   curl -I https://hub.docker.com
+   
+   # Check DNS resolution
+   nslookup hub.docker.com
+   ```
+
 ## Upgrading
 
 ```bash
@@ -270,7 +366,18 @@ helm upgrade devops-bridge ./dist/helm/devops-bridge --version 0.2.0
 helm uninstall devops-bridge
 ```
 
-## Building the Container Image
+## Docker Hub Integration
+
+This Helm chart is configured to use the Docker Hub repository: `sysintelligent/devops-bridge`
+
+### Docker Hub Repository
+- **Repository**: [sysintelligent/devops-bridge](https://hub.docker.com/r/sysintelligent/devops-bridge)
+- **Default Tag**: `latest`
+- **Supported Tags**: `latest`, `v1.0.0`, `v1.1.0`, etc.
+
+### Building the Container Image
+
+#### Manual Build
 
 Build the container image using the provided Dockerfile:
 
@@ -282,7 +389,7 @@ docker build -f dist/helm/devops-bridge/Dockerfile -t sysintelligent/devops-brid
 docker push sysintelligent/devops-bridge:latest
 ```
 
-### Using the Build Script
+#### Using the Build Script (Recommended)
 
 For convenience, use the provided build script:
 
@@ -298,9 +405,85 @@ For convenience, use the provided build script:
 
 # Login to Docker Hub and push
 ./build-and-push.sh -l
+
+# Show help
+./build-and-push.sh -h
 ```
 
-The image will be available at: https://hub.docker.com/r/sysintelligent/devops-bridge
+### Docker Hub Authentication
+
+Before pushing to Docker Hub, you need to authenticate:
+
+```bash
+# Login to Docker Hub
+docker login
+
+# Or use the build script with login
+./build-and-push.sh -l
+```
+
+### Image Configuration
+
+The Helm chart is pre-configured to use your Docker Hub repository:
+
+```yaml
+image:
+  repository: sysintelligent/devops-bridge
+  tag: "latest"
+  pullPolicy: IfNotPresent
+```
+
+### Available Images
+
+The following images are available on Docker Hub:
+- `sysintelligent/devops-bridge:latest` - Latest development version
+- `sysintelligent/devops-bridge:v1.0.0` - Stable release version
+- `sysintelligent/devops-bridge:v1.1.0` - Feature release version
+
+### Pulling Images
+
+To pull the image manually:
+
+```bash
+# Pull latest version
+docker pull sysintelligent/devops-bridge:latest
+
+# Pull specific version
+docker pull sysintelligent/devops-bridge:v1.0.0
+```
+
+### Deploying with Docker Hub Images
+
+The Helm chart automatically pulls images from your Docker Hub repository:
+
+```bash
+# Deploy with latest image
+helm install devops-bridge . -f values-development.yaml
+
+# Deploy with specific image tag
+helm install devops-bridge . -f values-production.yaml \
+  --set image.tag=v1.0.0
+
+# Deploy with custom image configuration
+helm install devops-bridge . -f my-values.yaml \
+  --set image.repository=sysintelligent/devops-bridge \
+  --set image.tag=v1.0.0
+```
+
+### Using the Deployment Script
+
+The deployment script integrates with Docker Hub:
+
+```bash
+# Deploy using existing Docker Hub image
+./deploy.sh -e development
+
+# Build, push to Docker Hub, and deploy
+./deploy.sh -e development -b -p
+
+# Deploy with specific image tag
+./deploy.sh -e production -f values-production.yaml
+```
 
 ## Contributing
 

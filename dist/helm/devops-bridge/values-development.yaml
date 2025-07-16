@@ -1,6 +1,12 @@
 # Development values for DevOps Bridge
 # This file contains settings suitable for development environments
 
+# Namespace configuration
+namespace:
+  create: true
+  name: "devops-bridge"
+  annotations: {}
+
 replicaCount: 1
 
 image:

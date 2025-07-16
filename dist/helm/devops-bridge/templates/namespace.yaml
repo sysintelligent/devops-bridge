@@ -1,0 +1,13 @@
+{{- if .Values.namespace.create }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace.name | default "devops-bridge" }}
+  labels:
+    {{- include "devops-bridge.labels" . | nindent 4 }}
+    app.kubernetes.io/component: namespace
+  {{- if .Values.namespace.annotations }}
+  annotations:
+    {{- toYaml .Values.namespace.annotations | nindent 4 }}
+  {{- end }}
+{{- end }} 

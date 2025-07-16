@@ -1,6 +1,14 @@
 # Production values for DevOps Bridge
 # This file contains recommended settings for production deployment
 
+# Namespace configuration
+namespace:
+  create: true
+  name: "devops-bridge"
+  annotations:
+    environment: production
+    managed-by: helm
+
 replicaCount: 3
 
 image:

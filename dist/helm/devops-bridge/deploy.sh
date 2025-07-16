@@ -14,7 +14,7 @@ NC='\033[0m' # No Color
 
 # Default values
 RELEASE_NAME="devops-bridge"
-NAMESPACE="default"
+NAMESPACE="devops-bridge"
 ENVIRONMENT="development"
 VALUES_FILE=""
 DRY_RUN=false
@@ -45,7 +45,7 @@ Usage: $0 [OPTIONS]
 
 Options:
     -r, --release-name NAME     Release name (default: devops-bridge)
-    -n, --namespace NAMESPACE   Kubernetes namespace (default: default)
+    -n, --namespace NAMESPACE   Kubernetes namespace (default: devops-bridge)
     -e, --environment ENV       Environment: development, staging, production (default: development)
     -f, --values-file FILE      Custom values file
     -d, --dry-run              Dry run mode
@@ -125,10 +125,8 @@ build_image() {
 
 # Function to create namespace if it doesn't exist
 create_namespace() {
-    if [ "$NAMESPACE" != "default" ]; then
-        print_status "Creating namespace '$NAMESPACE' if it doesn't exist..."
-        kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
-    fi
+    print_status "Creating namespace '$NAMESPACE' if it doesn't exist..."
+    kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
 }
 
 # Function to deploy the chart
