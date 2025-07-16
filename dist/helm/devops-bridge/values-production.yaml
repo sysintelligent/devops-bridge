@@ -16,6 +16,9 @@ image:
   pullPolicy: Always
   tag: "v1.0.0"
 
+# Override the full name to avoid redundant naming
+fullnameOverride: "devops-bridge"
+
 serviceAccount:
   create: true
   annotations: {}

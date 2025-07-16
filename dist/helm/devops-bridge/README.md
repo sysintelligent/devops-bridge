@@ -47,11 +47,11 @@ This Helm chart deploys the Go backend server which provides:
 # Add the Helm repository (if using a chart repository)
 helm repo add devops-bridge https://sysintelligent.github.io/devops-bridge
 
-# Install the chart
+# Install the chart (creates devops-bridge namespace)
 helm install devops-bridge ./dist/helm/devops-bridge
 
-# Or install from local chart (creates devops-bridge namespace)
-helm install devops-bridge ./dist/helm/devops-bridge
+# Or install with custom release name
+helm install my-release ./dist/helm/devops-bridge
 ```
 
 ### Custom Values
@@ -105,6 +105,8 @@ helm install devops-bridge ./dist/helm/devops-bridge -f my-values.yaml
 | `namespace.name` | Namespace name | `devops-bridge` |
 | `namespace.annotations` | Annotations for the namespace | `{}` |
 | `replicaCount` | Number of replicas | `1` |
+| `fullnameOverride` | Override the full name to avoid redundant naming | `devops-bridge` |
+| `nameOverride` | Override the chart name | `""` |
 | `image.repository` | Container image repository | `sysintelligent/devops-bridge` (Docker Hub) |
 | `image.tag` | Container image tag | `latest` |
 | `image.pullPolicy` | Container image pull policy | `IfNotPresent` |
@@ -174,6 +176,24 @@ namespace:
   annotations:
     team: devops
     project: bridge
+```
+
+### Pod Naming
+
+The chart uses `fullnameOverride: "devops-bridge"` by default to provide clean, non-redundant pod names:
+
+```yaml
+# Default behavior (clean naming)
+fullnameOverride: "devops-bridge"
+# Pod name: devops-bridge
+
+# Custom naming
+fullnameOverride: "my-app"
+# Pod name: my-app
+
+# No override (uses release name + chart name)
+fullnameOverride: ""
+# Pod name: {release-name}-devops-bridge
 ```
 
 ### Resource Management

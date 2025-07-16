@@ -20,7 +20,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "devops-bridge"
 
 serviceAccount:
   # Specifies whether a service account should be created
